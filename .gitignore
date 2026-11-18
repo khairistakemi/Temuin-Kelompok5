@@ -29,3 +29,24 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+
+# kredensial - WAJIB, jangan pernah dihapus dari daftar ini
+.env
+.env.backup
+# paket pihak ketiga - dipasang ulang dengan composer install
+/vendor
+/node_modules
+# berkas yang dihasilkan saat program berjalan
+/public/storage
+/public/build
+/storage/*.key
+/storage/logs/*.log
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+.phpunit.result.cache
+# berkas bawaan sistem operasi dan editor
+.DS_Store
+Thumbs.db
+/.idea
+/.vscode
