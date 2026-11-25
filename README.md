@@ -1,12 +1,137 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Temu.in (Aplikasi Lost and Found)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web untuk melaporkan dan mencari barang hilang atau ditemukan di lingkungan kampus UPN "Veteran" Jakarta. Pengguna dapat membuat laporan, mencari barang, mengajukan klaim dengan bukti, dan memantau perkembangan laporannya dari dashboard.
 
+Proyek akhir mata kuliah **Pemrograman Web**, Program Studi Sains Data, Fakultas Ilmu Komputer UPNVJ.
+Dosen pengampu: Muhammad Panji Muslim, S.Pd., M.Kom.
+
+## Anggota Kelompok 5 dan Pembagian Tugas
+
+| No | Nama | NIM | Branch | Bagian yang dikerjakan |
+|---|---|---|---|---|
+| 1 (Ketua) | Khairista Akemi Suryana | 2510514019 | `fitur/auth` | Login, logout, profil, validasi email kampus, serta setup repositori, migration, model, seeder, dan layout |
+| 2 | Satrio Radithya Prayata | 2510514021 | `fitur/laporan` | Tambah, lihat, ubah, hapus laporan, dan unggah gambar |
+| 3 | Sadewo Ahza Hasiqghani | 2510514016 | `fitur/beranda` | Beranda, pencarian, filter kategori dan jenis laporan, dan pagination |
+| 4 | Narendra Putra Bhaskoro | 2510514022 | `fitur/klaim` | Detail barang, form klaim, dan status klaim |
+| 5 | Muhammad Farand Danendra | 2510514025 | `fitur/dashboard` | Dashboard statistik, riwayat laporan, tandai selesai, dan notifikasi klaim masuk |
+
+## Fitur
+
+- Pendaftaran dan login hanya dengan email kampus (`@mahasiswa.upnvj.ac.id` atau `@upnvj.ac.id`).
+- Profil pengguna: lihat dan ubah nama, email, dan nomor telepon.
+- Laporan barang hilang atau ditemukan, lengkap dengan foto. Pengguna hanya dapat mengubah dan menghapus laporannya sendiri.
+- Beranda berisi laporan aktif dengan pencarian (nama barang atau lokasi), filter kategori, filter jenis laporan, pengurutan terbaru, dan pagination.
+- Halaman detail barang dan form klaim dengan bukti atau ciri barang. Pengguna tidak dapat mengklaim laporannya sendiri.
+- Pemilik laporan dapat menerima atau menolak klaim, dan pengaju dapat melihat status klaimnya.
+- Dashboard berisi statistik laporan, riwayat laporan, tombol tandai selesai, dan pemberitahuan saat ada klaim masuk.
+
+## Langkah Pemasangan dari Nol
+
+### 1. Siapkan perangkat lunak
+
+Pastikan sudah terpasang:
+
+- PHP 8.3 atau lebih baru
+- Composer
+- MySQL (misalnya lewat XAMPP atau Laragon)
+- Git
+
+### 2. Ambil kode dari GitHub
+
+```bash
+git clone https://github.com/khairistakemi/Temuin-Kelompok5.git
+cd Temuin-Kelompok5
+```
+
+### 3. Pasang dependensi
+
+```bash
+composer install
+```
+
+### 4. Buat berkas `.env`
+
+Berkas `.env` tidak ikut ke repositori. Buat dari contohnya:
+
+```bash
+copy .env.example .env
+php artisan key:generate
+```
+
+### 5. Atur koneksi database
+
+Buka `.env`, lalu pastikan bagian database berisi seperti ini (tanpa tanda `#` di depannya):
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=temuin
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Isi `DB_PASSWORD` jika MySQL di komputer Anda memakai kata sandi.
+
+### 6. Buat database
+
+Nyalakan MySQL, lalu buat database kosong bernama **`temuin`**.
+
+### 7. Bangun tabel dan isi data contoh
+
+```bash
+php artisan migrate:fresh --seed
+php artisan storage:link
+```
+
+### 8. Jalankan aplikasi
+
+```bash
+php artisan serve
+```
+
+Buka `http://localhost:8000` di browser.
+
+## Akun Contoh
+
+Data contoh dari seeder menyediakan tiga akun dengan kata sandi yang sama, yaitu `password`:
+
+| Nama | Email |
+|---|---|
+| Budi | budi@mahasiswa.upnvj.ac.id |
+| Sari | sari@mahasiswa.upnvj.ac.id |
+| Andi | andi@mahasiswa.upnvj.ac.id |
+
+## Struktur Basis Data
+
+| Tabel | Isi |
+|---|---|
+| `users` | Akun pengguna (nama, email, nomor telepon, kata sandi) |
+| `categories` | Kategori barang |
+| `reports` | Laporan barang hilang atau ditemukan |
+| `claims` | Klaim atas laporan beserta statusnya |
+
+Relasi utama: satu pengguna memiliki banyak laporan, satu kategori memiliki banyak laporan, dan satu laporan memiliki banyak klaim.
+
+## Alur Kerja Git
+
+1. Setiap anggota bekerja di branch miliknya sendiri (lihat tabel pembagian tugas).
+2. Ambil perubahan terbaru sebelum mulai bekerja:
+   ```bash
+   git fetch
+   git merge origin/main
+   ```
+3. Simpan dan kirim perubahan:
+   ```bash
+   git add .
+   git commit -m "Pesan singkat tentang perubahan"
+   git push -u origin nama-branch
+   ```
+4. Buka Pull Request ke `main` di GitHub. Pull Request ditinjau oleh anggota lain sebelum digabung.
+5. Tidak ada yang melakukan push langsung ke `main`.
+
+
+##
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
